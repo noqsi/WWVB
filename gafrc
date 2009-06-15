@@ -1,0 +1,16 @@
+; $Id$
+
+; For syms and schematics, we can search:
+;
+(component-library ".")
+(source-library ".")
+(always-promote-attributes "refdes")
+(define default-titleblock "Noqsi-title-B.sym")
+;
+; $Log$
+; Revision 1.1  2009-06-15 16:01:59  jpd
+; Initial checkin of WWVB project.
+;
+; Revision 1.1  2009-06-02 19:15:25  jpd
+; Initial checkin of readout support
+;
