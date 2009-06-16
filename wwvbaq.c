@@ -2,6 +2,7 @@
  * $Id$
  */
 
+#include "stdlib.h"
 #include "comedilib.h"
 
 /*
@@ -48,9 +49,8 @@ comedi_cmd * DAQ_Cmd( void )
 	c.scan_begin_src = TRIG_FOLLOW;	// No scan delay
 	c.scan_begin_arg = 0;		// 
 
-	c.convert_src = TRIG_NOW;	// Nyquist samples
+	c.convert_src = TRIG_TIMER;	// Nyquist samples
 	c.convert_arg = SAMPLE_NS;	// 125000 ns -> 80 kHz
-
 	
 	c.scan_end_src = TRIG_COUNT;	// a scan is just
 	c.scan_end_arg = 1;		// a single sample.
@@ -107,8 +107,8 @@ void fill( int in, sampl_t *ib, int n )
 {
 	int nr, total = 0;
 
-	while( total < n * sizeof( sampl_t) ) {
-		nr = read( in, ib + total, n - total );
+	while( total < n ) {
+		nr = read( in, ib + total, (n - total) * sizeof( sampl_t) );
 		if( nr < 0 ) {
 			perror( "Reading from DAQ" );
 			exit( 1 );
@@ -117,7 +117,11 @@ void fill( int in, sampl_t *ib, int n )
 			fprintf( stderr, "Unexpected EOF from DAQ.\n" );
 			exit( 1 );
 		}
-		total += nr;
+                if( nr % sizeof( sampl_t ) ) {
+                        fprintf( stderr, "Odd count from DAQ\n" );
+                        exit( 1 );
+                }
+		total += nr / sizeof( sampl_t);
 	}
 }
 
@@ -146,7 +150,7 @@ void ferry( int in, int out )
 	
 	for( ;; ) {
 		fill( in, ib, SAMPLES_PER_BUFFER );
-		mix_decimate( ib, short *ob, BINS_PER_BUFFER );
+		mix_decimate( ib, ob, BINS_PER_BUFFER );
 		log_time();
 		/* write( out, ob, sizeof ob ); */
 	}
@@ -184,6 +188,9 @@ int main(int argc,char *argv[])
 
 /*
  * $Log$
+ * Revision 1.2  2009-06-16 00:02:18  jpd
+ * Timing test.
+ *
  * Revision 1.1  2009-06-15 16:01:59  jpd
  * Initial checkin of WWVB project.
  *
