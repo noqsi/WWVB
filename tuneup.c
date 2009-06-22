@@ -5,7 +5,7 @@
 #include "param.h"
 
 #define RESAMP_HZ 50
-#define RESAMP (SAMPLE_HZ/RESAMP_HZ)
+#define RESAMP (SAMPLE_HZ/SAMPLES_PER_BIN/RESAMP_HZ)
 #define PWRSUM 20
 
 float resamp_pwr( void )
@@ -53,6 +53,9 @@ int main(int argc,char *argv[])
 
 /*
  * $Log$
+ * Revision 1.3  2009-06-22 16:33:32  jpd
+ * Fix tuneup cadence.
+ *
  * Revision 1.2  2009-06-22 00:35:38  jpd
  * First light.
  *
