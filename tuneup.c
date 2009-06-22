@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include "param.h"
 
@@ -52,6 +53,9 @@ int main(int argc,char *argv[])
 
 /*
  * $Log$
+ * Revision 1.2  2009-06-22 00:35:38  jpd
+ * First light.
+ *
  * Revision 1.1  2009-06-21 22:04:57  jpd
  * Share parameters.
  * Tuneup filter.

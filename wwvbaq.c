@@ -21,7 +21,7 @@ comedi_cmd * DAQ_Cmd( void )
 	
 	// Range 3 is +-1.25V on the PCI-DAS1602/16
 	static unsigned chan[1];
-	chan[0] = CR_PACK( 0, 3, AREF_DIFF );
+	chan[0] = CR_PACK( 0, 3, AREF_GROUND );
 
 	c.subdev = 0;			// 0 is analog input
 	c.flags = 0;			// not asking for special behavior
@@ -77,8 +77,8 @@ void mix_decimate( sampl_t *in, short *out, int n )
 		acq -= *in++;
 		aci -= *in++;
 		acq += *in++;
-		*out++ = aci >> SUMSHIFT;
-		*out++ = acq >> SUMSHIFT;
+		*out++ = aci ; /* >> SUMSHIFT; */
+		*out++ = acq ; /* >> SUMSHIFT; */
 	}
 }
 
@@ -134,8 +134,8 @@ void ferry( int in, int out )
 	for( ;; ) {
 		fill( in, ib, SAMPLES_PER_BUFFER );
 		mix_decimate( ib, ob, BINS_PER_BUFFER );
-		log_time();
-		/* write( out, ob, sizeof ob ); */
+		/* log_time(); */
+		write( out, ob, sizeof ob );
 	}
 }
 
@@ -171,6 +171,9 @@ int main(int argc,char *argv[])
 
 /*
  * $Log$
+ * Revision 1.4  2009-06-22 00:35:38  jpd
+ * First light.
+ *
  * Revision 1.3  2009-06-21 22:04:57  jpd
  * Share parameters.
  * Tuneup filter.
