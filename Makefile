@@ -1,6 +1,6 @@
 # $Id$
 
-all :	wwvbaq tuneup
+all :	wwvbaq tuneup complexify
 
 wwvbaq : wwvbaq.c param.h
 	$(CC) -o wwvbaq -lm -lcomedi wwvbaq.c
@@ -8,7 +8,13 @@ wwvbaq : wwvbaq.c param.h
 tuneup: param.h tuneup.c
 	$(CC) -o tuneup tuneup.c
 
+complexify: param.h complexify.c
+	$(CC) -o complexify complexify.c
+
 # $Log$
+# Revision 1.4  2009-07-05 22:09:19  jpd
+# Make complex real data from complex integer samples.
+#
 # Revision 1.3  2009-06-22 00:35:38  jpd
 # First light.
 #
