@@ -6,12 +6,15 @@ wwvbaq : wwvbaq.c param.h
 	$(CC) -o wwvbaq -lm -lcomedi wwvbaq.c
 
 tuneup: param.h tuneup.c
-	$(CC) -o tuneup tuneup.c
+	$(CC) -o tuneup -lm tuneup.c
 
 complexify: param.h complexify.c
 	$(CC) -o complexify complexify.c
 
 # $Log$
+# Revision 1.5  2009-07-15 19:39:33  jpd
+# Tuneup timing.
+#
 # Revision 1.4  2009-07-05 22:09:19  jpd
 # Make complex real data from complex integer samples.
 #

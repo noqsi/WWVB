@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "param.h"
+#include <math.h>
 
 #define RESAMP_HZ 50
 #define RESAMP (SAMPLE_HZ/SAMPLES_PER_BIN/RESAMP_HZ)
@@ -43,7 +44,7 @@ float sum_pwr( void )
 int main(int argc,char *argv[])
 {
 	for(;;) {
-		if( printf( "%f\n", sum_pwr()) <= 0 ) {
+		if( printf( "%f\n", log(sum_pwr())) <= 0 ) {
 			perror( "tuneup" );
 			exit( 1 );
 		}
@@ -53,6 +54,9 @@ int main(int argc,char *argv[])
 
 /*
  * $Log$
+ * Revision 1.4  2009-07-15 19:39:33  jpd
+ * Tuneup timing.
+ *
  * Revision 1.3  2009-06-22 16:33:32  jpd
  * Fix tuneup cadence.
  *
