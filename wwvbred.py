@@ -1,12 +1,11 @@
 import posix
 import numpy
-import pylab
 
 BIN_HZ = 10000
 BIN_BYTES = 8
 BIN_DTYPE = numpy.complex64
 
-binfile = sys.stdin
+binfile = "wwvbcxtemp"
 
 def bytecount( f ):
 	return posix.stat( f )[6]

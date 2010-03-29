@@ -2,8 +2,10 @@
  * $Id$
  */
 
+#include <unistd.h>
 #include <stdlib.h>
-#include <time.h>
+#include <time.h> 
+#include <sys/time.h>
 #include "comedilib.h"
 #include "param.h"
 
@@ -116,7 +118,8 @@ void log_time( void )
 	if( bc % LOG_BUFFERS == 0 ) {
 		struct timeval tv;
 		(void) gettimeofday( &tv, 0);
-		fprintf( stderr, "%u\t%u\t%u\n", bc, tv.tv_sec, tv.tv_usec);
+		fprintf( stderr, "%u\t%u\t%u\n", bc, 
+			(unsigned) tv.tv_sec, (unsigned) tv.tv_usec);
 	}
 
 	bc += 1;
@@ -139,7 +142,7 @@ void ferry( int in, int out )
 	now = time( NULL ) + SECONDS_EAST;	/* local solar time */
 	today = now/86400;
 	tomorrow_noon = 86400 * (today + 1) + 86400/2;
-	buffers = (tomorrow_noon - now) * BUFFER_HZ);
+	buffers = (tomorrow_noon - now) * BUFFER_HZ;
 	
 	for( i = 0; i < buffers; i += 1 ) {
 		fill( in, ib, SAMPLES_PER_BUFFER );
@@ -163,7 +166,7 @@ int main(int argc,char *argv[])
 
 	cmd = DAQ_Cmd();
 	print_cmd( cmd );
-	if( err = comedi_command_test (it, cmd)) {
+	if( (err = comedi_command_test (it, cmd))) {
 		comedi_perror( "comedi_command_test failed" );
 		fprintf( stderr, "comedi_command_test returned %d\n", err);
 		print_cmd( cmd );
@@ -176,11 +179,15 @@ int main(int argc,char *argv[])
   	}
 	
 	ferry( comedi_fileno( it ), 1 );
+	exit(0);
 
 }
 
 /*
  * $Log$
+ * Revision 1.6  2010-03-29 20:01:26  jpd
+ * Further fixes for coherent decimation.
+ *
  * Revision 1.5  2010-03-29 19:03:12  jpd
  * Coherently decimate to 1 Hz on the fly.
  *
