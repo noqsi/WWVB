@@ -6,8 +6,7 @@ BIN_HZ = 10000
 BIN_BYTES = 8
 BIN_DTYPE = numpy.complex64
 
-binfile = "fermiburst"
-# binfile = "cxtest"
+binfile = sys.stdin
 
 def bytecount( f ):
 	return posix.stat( f )[6]
@@ -153,8 +152,16 @@ def measure_bits():
 		amplitude[i] = numpy.exp( -2j*numpy.pi*basefreq*thisbit ) * sumbit( chunks, bit[i] )
 		thisbit += BIN_HZ + startoff( signal, chunks )
 
-# a, p, b, o = measure_bits()
-# pylab.plot( p )
-# pylab.show()
+a, p, b, o = measure_bits()
+
+# Make a TSV file containing 1 second sampled data
+# Fields are:
+#	Start of bit in bins
+#	Phase in radians
+#	Amplitude (arbitrary units)
+#	Demodulated time code symbol (0,1 are bits, 2 is a marker)
+
+for i in range(len(a)):
+	print "%d\t%g\t%g\t%d" % (o[i],p[i],a[i],b[i])
 
 

@@ -3,6 +3,7 @@
  */
 
 #include <stdlib.h>
+#include <time.h>
 #include "comedilib.h"
 #include "param.h"
 
@@ -64,7 +65,7 @@ static void print_cmd( comedi_cmd *c )
 }
 
 
-void mix_decimate( sampl_t *in, short *out, int n )
+void mix_decimate( sampl_t *in, float *out, int n )
 {
 	int i;
 
@@ -129,9 +130,18 @@ void log_time( void )
 void ferry( int in, int out )
 {
 	sampl_t ib[SAMPLES_PER_BUFFER];
-	short ob[2*BINS_PER_BUFFER];
+	float ob[2*BINS_PER_BUFFER];
+	time_t now, tomorrow_noon;
+	int today;
+	int buffers;		/* buffers to output */
+	int i;
 	
-	for( ;; ) {
+	now = time( NULL ) + SECONDS_EAST;	/* local solar time */
+	today = now/86400;
+	tomorrow_noon = 86400 * (today + 1) + 86400/2;
+	buffers = (tomorrow_noon - now) * BUFFER_HZ);
+	
+	for( i = 0; i < buffers; i += 1 ) {
 		fill( in, ib, SAMPLES_PER_BUFFER );
 		mix_decimate( ib, ob, BINS_PER_BUFFER );
 		/* log_time(); */
@@ -171,6 +181,9 @@ int main(int argc,char *argv[])
 
 /*
  * $Log$
+ * Revision 1.5  2010-03-29 19:03:12  jpd
+ * Coherently decimate to 1 Hz on the fly.
+ *
  * Revision 1.4  2009-06-22 00:35:38  jpd
  * First light.
  *
