@@ -14,6 +14,13 @@
 
 
 /*
+ * On a 32 bit machine, the downstream processing has trouble using
+ * map mode I/O on a file more than 2^31 bytes long.
+ */
+
+#define MAXFILE (((unsigned)1)<<31)
+
+/*
  * DAQ_Cmd() creates the Comedi command to read channel 0.
  * Returns a pointer to a statically allocated command structure.
  */
@@ -134,15 +141,17 @@ void ferry( int in, int out )
 {
 	sampl_t ib[SAMPLES_PER_BUFFER];
 	float ob[2*BINS_PER_BUFFER];
-	time_t now, tomorrow_noon;
-	int today;
+//	time_t now, tomorrow_noon;
+//	int today;
 	int buffers;		/* buffers to output */
 	int i;
 	
-	now = time( NULL ) + SECONDS_EAST;	/* local solar time */
-	today = now/86400;
-	tomorrow_noon = 86400 * (today + 1) + 86400/2;
-	buffers = (tomorrow_noon - now) * BUFFER_HZ;
+//	now = time( NULL ) + SECONDS_EAST;	/* local solar time */
+//	today = now/86400;
+//	tomorrow_noon = 86400 * (today + 1) + 86400/2;
+//	buffers = (tomorrow_noon - now) * BUFFER_HZ;
+
+	buffers = MAXFILE / sizeof( ob );
 	
 	for( i = 0; i < buffers; i += 1 ) {
 		fill( in, ib, SAMPLES_PER_BUFFER );
@@ -185,6 +194,9 @@ int main(int argc,char *argv[])
 
 /*
  * $Log$
+ * Revision 1.7  2010-07-25 16:32:39  jpd
+ * First real production versions.
+ *
  * Revision 1.6  2010-03-29 20:01:26  jpd
  * Further fixes for coherent decimation.
  *
