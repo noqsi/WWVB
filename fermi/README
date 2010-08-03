@@ -1,0 +1,9 @@
+To run the software in this file, you need to first run:
+
+> sudo apt-get install curl python-dev python-setuptools ghci
+
+This will install curl, python-dev, python-setuptools, and ghci if they aren't already present.
+
+Next, after you have python_setuptools installed, you will have to run:
+
+> sudo easy_install pyephem
