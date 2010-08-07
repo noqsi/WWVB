@@ -1,0 +1,65 @@
+v 20100214 2
+B 300 300 1500 1200 3 0 0 0 -1 -1 0 -1 -1 -1 -1 -1
+T 1800 1600 9 10 0 0 0 0 1
+footprint=AOCJY
+T 1800 1800 9 10 0 0 0 0 1
+description=Ovenized Crystal Oscillator
+T 1800 2000 9 10 0 0 0 0 1
+device=AOCJY
+T 1800 2200 9 10 0 0 0 0 1
+distlicense=GPL
+T 1800 2400 9 10 0 0 0 0 1
+uselicense=unlimited
+T 1800 2600 9 10 0 0 0 0 1
+author=jpd@noqsi.com
+T 1800 2800 9 10 0 0 0 0 1
+copryright=2010 John P Doty
+T 1100 800 9 10 1 1 0 3 1
+OCXO
+T 1700 1600 9 10 1 1 0 3 1
+refdes=U?
+P 0 1100 300 1100 1 0 0
+{
+T 350 1100 9 10 1 1 0 1 1
+pinlabel=Control
+T 200 1150 5 8 1 1 0 6 1
+pinnumber=1
+T 200 1150 5 8 0 1 0 6 1
+pinseq=1
+}
+P 0 700 300 700 1 0 0
+{
+T 350 700 9 10 1 1 0 1 1
+pinlabel=Vref
+T 200 750 5 8 1 1 0 6 1
+pinnumber=2
+T 200 750 5 8 0 1 0 6 1
+pinseq=2
+}
+P 1100 1800 1100 1500 1 0 0
+{
+T 1100 1450 9 10 1 1 0 5 1
+pinlabel=V+
+T 1150 1550 5 8 1 1 0 0 1
+pinnumber=3
+T 1150 1550 5 8 0 1 0 0 1
+pinseq=3
+}
+P 2100 1100 1800 1100 1 0 0
+{
+T 1750 1100 9 10 1 1 0 7 1
+pinlabel=Out
+T 1900 1150 5 8 1 1 0 0 1
+pinnumber=4
+T 1900 1150 5 8 0 1 0 0 1
+pinseq=4
+}
+P 1100 0 1100 300 1 0 0
+{
+T 1100 350 9 10 1 1 0 3 1
+pinlabel=GND
+T 1150 250 5 8 1 1 0 2 1
+pinnumber=5
+T 1150 250 5 8 0 1 0 2 1
+pinseq=5
+}
